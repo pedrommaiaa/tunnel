@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "snapshot": {
+    "max_chars_injected": 6000,
+    "max_snapshot_chars": 25000,
+    "max_snapshots": 50
+  },
+  "tracking": {
+    "track_tools": [
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "Bash"
+    ],
+    "track_decisions": true
+  },
+  "prompt_inject": {
+    "max_chars": 2000
+  },
+  "agent_budgets": {}
+}

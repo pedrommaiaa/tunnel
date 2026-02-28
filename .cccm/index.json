@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "last_snapshot": null,
+  "recent_files": [
+    "/Users/pedromaia/2026/local/claude-tunnel/README.md"
+  ],
+  "events": [
+    {
+      "ts": "2026-02-28T23-36-11-316740Z",
+      "kind": "prompt_memory_injected",
+      "payload": {
+        "prompt_len": 77
+      }
+    },
+    {
+      "ts": "2026-02-28T23-36-46-160155Z",
+      "kind": "tool",
+      "payload": {
+        "tool_name": "Write",
+        "file": "/Users/pedromaia/2026/local/claude-tunnel/README.md"
+      }
+    }
+  ]
+}
