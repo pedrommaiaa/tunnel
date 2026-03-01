@@ -1,4 +1,4 @@
-# claude-tunnel
+# tunnel
 
 A [Claude Code](https://claude.com/claude-code) skill that exposes your local dev environment as a production-like HTTPS URL using Cloudflare Tunnels + Zero Trust.
 
@@ -7,9 +7,15 @@ No port forwarding. No IP exposure. One URL that works from anywhere, protected 
 ## Prerequisites
 
 - [Claude Code](https://claude.com/claude-code)
-- [cloudflared](https://github.com/cloudflare/cloudflared) — `brew install cloudflare/cloudflare/cloudflared`
-- [caddy](https://caddyserver.com/) — `brew install caddy`
 - A domain managed by Cloudflare (nameservers pointing to Cloudflare)
+- [cloudflared](https://github.com/cloudflare/cloudflared) and [caddy](https://caddyserver.com/):
+
+| OS | cloudflared | caddy |
+|---|---|---|
+| macOS | `brew install cloudflare/cloudflare/cloudflared` | `brew install caddy` |
+| Debian/Ubuntu | [pkg.cloudflare.com](https://pkg.cloudflare.com/) (apt repo) | [Install docs](https://caddyserver.com/docs/install#debian-ubuntu-raspbian) |
+| Fedora/RHEL | `sudo dnf copr enable cloudflare/cloudflared && sudo dnf install cloudflared` | `sudo dnf copr enable @caddy/caddy && sudo dnf install caddy` |
+| Arch | `yay -S cloudflared-bin` (AUR) | `sudo pacman -S caddy` |
 
 ## Cloudflare Setup (one-time)
 
@@ -97,14 +103,14 @@ Now anyone visiting `https://dev.yourdomain.com` will be prompted to log in thro
 ## Install the Skill
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pedromaia/claude-tunnel/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/pedrommaiaa/tunnel/main/install.sh | bash
 ```
 
 Or clone and run locally:
 
 ```bash
-git clone https://github.com/pedromaia/claude-tunnel.git
-cd claude-tunnel
+git clone https://github.com/pedrommaiaa/tunnel.git
+cd tunnel
 ./install.sh
 ```
 
@@ -120,6 +126,7 @@ Open Claude Code and type:
 /tunnel down         # Stop caddy + cloudflared
 /tunnel status       # Check tunnel health, URLs, running processes
 /tunnel share email  # Add someone to the Access policy
+/tunnel update       # Update skill to latest version
 ```
 
 ### Typical workflow
@@ -151,7 +158,7 @@ localhost:3000 (backend)  ─┘                                        │
                                                             (login required)
 ```
 
-The skill auto-detects your stack (Vite, Next.js, Angular, Django, Go, etc.) and generates the routing config automatically.
+The skill scans all listening TCP ports on your machine and labels them by detecting your project's framework (Vite, Next.js, Angular, Nuxt, SvelteKit, Django, Flask, FastAPI, Rails, Go, Rust, and more). Unknown services are included as `service-<port>`. Works with any stack.
 
 ### Custom routing
 
@@ -179,6 +186,22 @@ If only one service is detected, the tunnel points directly to that port — Cad
 - **HTTPS URL** — works like production, no certificate hassle
 - **Access gate** — login required, configurable per-user with MFA
 - **One URL** — test on phone, share with a colleague, works from anywhere
+
+## Updating
+
+From inside Claude Code:
+
+```
+/tunnel update
+```
+
+This checks for a newer version on GitHub and replaces the installed skill file. Restart Claude Code after updating.
+
+To reinstall from scratch instead:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/pedrommaiaa/tunnel/main/install.sh | bash
+```
 
 ## Uninstall
 
